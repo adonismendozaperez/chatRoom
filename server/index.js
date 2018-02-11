@@ -1,28 +1,36 @@
 const express = require('express'),
       app     = express(),
-      server  = require("http").Server(app),
-      io      = require("socket.io")(server);
-
-
-/* GET PAGE FOR DEFAULT */
+      server  = require('http').Server(app),
+      io      = require('socket.io')(server);
+ 
 app.use(express.static('client'));
-
-app.get('/home',function (req,resp){
-    resp.status(200).send('Test');
+ 
+app.get('/info', function(req, res){
+    res.status(200).send('Info Page.');
 });
-
-let message =[{
-id:1,
-text:'Welcome to room chat',
-nickname:'Bot-master'
+ 
+let messages = [{
+    id: 1,
+    nickname: 'Bot-Master.',
+    text: 'Welcome to the chat room.'
 }];
-
-/* CONNET TO SOCKET */
-io.on('connection', function (socket){
-    console.log(`client ip: ${socket.handshake.address} is connecting...`);
-    socket.emit('message',message);
+ 
+io.on('connection', function(socket){
+    console.log(`Client IP:${socket.handshake.address} has conect...`);
+ 
+    /* SENT MESSAGE FOR DEFAULT TO THE FRONT-END */
+    socket.emit('messages', messages);
+ 
+    /* GET MESSAGE TO THE FRONT-END FOR THE SAVE IN THE SERVER */
+    socket.on('add-message', function(data){
+        messages.push(data);
+ 
+        io.sockets.emit('messages', messages);
+    });
+ 
 });
-
-server.listen(2122,function (){
-    console.log('Server On!');
+ 
+/* CONFIGURING SERVER PORT */
+server.listen(2122, function(){
+    console.log('Server On.');
 });
