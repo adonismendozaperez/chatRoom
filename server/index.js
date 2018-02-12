@@ -17,7 +17,7 @@ let messages = [{
  
 io.on('connection', function(socket){
     console.log(`Client IP:${socket.handshake.address} has conect...`);
- 
+    socket.join('Some room');
     /* SENT MESSAGE FOR DEFAULT TO THE FRONT-END */
     socket.emit('messages', messages);
  
@@ -26,6 +26,10 @@ io.on('connection', function(socket){
         messages.push(data);
  
         io.sockets.emit('messages', messages);
+    });
+
+    socket.on('disconnect',function (){
+        console.log(`Client IP:${socket.handshake.address} has disconnect...`);
     });
  
 });
