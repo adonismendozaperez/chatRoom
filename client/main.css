@@ -70,8 +70,20 @@ form #btnSend{
 }
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
+    margin: 15% auto;
+    padding: 15px;
     border: 1px solid #888;
-    width: 80%;
+    width: 25%;
+}
+#nickname{
+    width: 70%;
+    height: 29px;
+    padding: 5px 19px;
+}
+#btnNick{
+    width: 25%;
+    background-color: var(--colorBlueDar);
+    color: white;
+    border: none;
+    padding: 6px;
 }
